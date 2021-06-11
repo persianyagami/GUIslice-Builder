@@ -47,11 +47,15 @@ public final class ImgButtonCodeBlock implements CodeBlock {
   /** The Constants for TEMPLATES. */
   private final static String IMGBUTTON_DEFINE_TEMPLATE  = "<IMGBUTTON_DEFINE>";
   private final static String IMGBUTTON_EXTERN_TEMPLATE  = "<IMGBUTTON_EXTERN>";
+  private final static String IMGTOGGLE_DEFINE_TEMPLATE  = "<IMGTOGGLE_DEFINE>";
+  private final static String IMGTOGGLE_EXTERN_TEMPLATE  = "<IMGTOGGLE_EXTERN>";
   private final static String IMAGETRANSPARENT_TEMPLATE  = "<IMGBTNTRANSPARENT>";
   private final static String ELEMENTREF_TEMPLATE    = "<ELEMENT_REF>";
   private final static String FRAME_EN_TEMPLATE      = "<FRAME_EN>";
   private final static String COLOR_TEMPLATE         = "<COLOR_IMAGE>";
   private final static String COUNT_MACRO            = "COUNT";
+  private final static String GROUP_TEMPLATE         = "<GROUP>";
+
   /**
    * Instantiates a new check box code block.
    */
@@ -85,9 +89,17 @@ public final class ImgButtonCodeBlock implements CodeBlock {
 
     // now output creation API
     if (m.getDefine() != null && !m.getDefine().isEmpty()) {
-      template = tm.loadTemplate(IMGBUTTON_DEFINE_TEMPLATE);
+      if (m.isToggle()) {
+        template = tm.loadTemplate(IMGTOGGLE_DEFINE_TEMPLATE);
+      } else {
+        template = tm.loadTemplate(IMGBUTTON_DEFINE_TEMPLATE);
+      }
     } else {
-      template = tm.loadTemplate(IMGBUTTON_EXTERN_TEMPLATE);
+      if (m.isToggle()) {
+        template = tm.loadTemplate(IMGTOGGLE_EXTERN_TEMPLATE);
+      } else {
+        template = tm.loadTemplate(IMGBUTTON_EXTERN_TEMPLATE);
+      }
     }
     outputLines = tm.expandMacros(template, map);
     tm.codeWriter(sBd, outputLines);
@@ -103,6 +115,13 @@ public final class ImgButtonCodeBlock implements CodeBlock {
       outputLines = tm.expandMacros(template, map);
       tm.codeWriter(sBd, outputLines);
       template = tm.loadTemplate(COLOR_TEMPLATE);
+      outputLines = tm.expandMacros(template, map);
+      tm.codeWriter(sBd, outputLines);
+    }
+    String groupId = m.getGroupId();
+
+    if (m.isToggle() && !groupId.equals("GSLC_GROUP_ID_NONE")) {
+      template = tm.loadTemplate(GROUP_TEMPLATE);
       outputLines = tm.expandMacros(template, map);
       tm.codeWriter(sBd, outputLines);
     }

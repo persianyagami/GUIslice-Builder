@@ -70,8 +70,10 @@ public class TextInputWidget extends Widget {
    */
   public void draw(Graphics2D g2d) {
     Rectangle b = getWinBounded();
-    g2d.setColor(m.getFillColor());
-    g2d.fillRect(b.x, b.y, b.width, b.height);
+    if (m.isFillEnabled()) {
+      g2d.setColor(m.getFillColor());
+      g2d.fillRect(b.x, b.y, b.width, b.height);
+    }
     g2d.setColor(m.getFrameColor());
     g2d.drawRect(b.x, b.y, b.width, b.height);
     FontTFT font = ff.getFont(m.getFontDisplayName());
@@ -89,7 +91,11 @@ public class TextInputWidget extends Widget {
           }
         }
       }
-      ff.drawText(g2d, m.getAlignment(), b, text, font, m.getTextColor(), m.getFillColor(), m.getTextMargin());
+      if (m.isFillEnabled()) {
+        ff.drawText(g2d, m.getAlignment(), b, text, font, m.getTextColor(), m.getFillColor(), m.getTextMargin());
+      } else {
+        ff.drawText(g2d, m.getAlignment(), b, text, font, m.getTextColor(), m.getTextColor(), m.getTextMargin());
+      }
     } else {
       g2d.setColor(Color.RED);
       g2d.drawRect(b.x, b.y, b.width, b.height);

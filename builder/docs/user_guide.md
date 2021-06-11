@@ -6,7 +6,7 @@
         User Guide
     </H2>
     <H3>
-        Ver: 0.16.0
+        Ver: 0.16.b007
     </H3>
 </center>
 
@@ -14,13 +14,13 @@
 
 **Publication date and software version**
 
-Published November, 2020. Based on GUIslice API Library 0.16.0
+Published February, 2021. Based on GUIslice API Library 0.16.0.14
 
 **Copyright**
 
-This document is Copyright © 2018-2020 by Paul Conti. You may distribute or modify it under the terms of the MIT License.  https://opensource.org/licenses/MIT
+This document is Copyright © 2018-2021 by Paul Conti. You may distribute or modify it under the terms of the MIT License.  https://opensource.org/licenses/MIT
 
-GUIslice Copyright (c) Calvin Hass 2016-2020
+GUIslice Copyright (c) Calvin Hass 2016-2021
 
 Copyright Notices for third party libraries are included in Appendixes C and D.
 All trademarks within this guide belong to their legitimate owners.
@@ -106,13 +106,13 @@ Install: <https://github.com/ImpulseAdventure/GUIslice/wiki/GUIslice-Builder>
 
 ![](images/modules.png)
 
-1. Tabs for Toolbox and Page Layout.  Toolbox is where you select the UI Elements to drop on the TFT Simulation.  Page Layout tab has icon buttons for aligning UI Elements on a page.
+1. Tabs for Ribbon and Page Layout.  Ribbon is where you select the UI Elements to drop on the TFT Simulation.  Page Layout tab has icon buttons for aligning UI Elements on a page.
 
 2. TFT Simulation is where you create your UI.
 
 3. Treeview displays all elements you have selected in z-order of display.
 
-4. Property List allows you to view and change various properties of the selected UI Element.
+4. Property View allows you to view and change various properties of the selected UI Element.
 
 5. Status Bar will give confirmation messages, like your project has been saved.
 
@@ -168,6 +168,7 @@ Before beginning lets go over over the mouse selecting rules for the TFT Simulat
 - A Left-click on an object deselects any existing selection and selects the object.
 - A Control Left-click on an object toggles its selection without affecting the selection of any other objects.
 - A Shift Left-click on an object selects it without deselecting any other objects.
+- A Right-click on a "Text" or "Label" property will bring up a mini-popup that lets you choose either to clear the text field or invoke the CharacterMap Dialog.
 - Using the Rectangle Selection Tool ![](images/layout/selection.png) on the Page Layout tab will allow you to create a rubber band by pressing down the left mouse button and keeping it down while you move the band over the a group of objects and will select them all. For Example:
 ![](images/multi_sel.png)
 
@@ -200,9 +201,7 @@ Also, any element you plan on directly accessing at runtime should have a meanin
 
 ## 3.1 Main Parts
 
-## 3.1.1 Taskbar 
-
-![](images/taskbar.png)
+## Taskbar 
 
 ![](images/tasks/open.png) This will open an existing project.
 
@@ -214,6 +213,16 @@ Also, any element you plan on directly accessing at runtime should have a meanin
 
 ![](images/tasks/delete.png) Delete allows removal of a element.  You can only select a page for deletion by selecting it inside the treeview or on the page tabs. You must, however, have removed all elements from the page before attempting a deletion.  Furthermore you are never allowed to delete the first or main page.
 
+![](images/tasks/selection.png) Rectangular Selection creates a rubber band that you can drag over UI elements to select them.  You start by pressing and holding the left mouse button then dragging the rubber band over yourUI Elements.  Once you release the left mouse button the transaction ends.
+
+![](images/tasks/copy_props.png) Copy Properties to other UI Elements
+
+![](images/tasks/copy.png) Copy will copy selected UI Elements to the clipboard.
+
+![](images/tasks/cut.png) Cut will copy selected UI Elements to the clipboard and delete them from the current page.
+
+![](images/tasks/paste.png) Paste will copy UI Elements from the clipboard to the current page.  You may use that Page tabs to move to a new page. The copied Elements will be slightly offset from the original copied positions.  This is to avoid placing them directly on top of the original Elements.
+
 ![](images/tasks/export.png) Export the generate code skeleton for the current project.
 
 ![](images/tasks/logout.png) Exit the builder.
@@ -221,15 +230,13 @@ Also, any element you plan on directly accessing at runtime should have a meanin
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.1.2 Toolbox Tab ![](images/toolbox.png)
+## Toolbox Tab ![](images/toolbox.png)
 
-See Section 4.0 for complete details.
+This is broken into bands Text, Controls, Gauges, Misc and View.
 
-## 3.1.3 Page Layout Tab ![](images/pagelayout.png)]
+For Bands Text,Controls, Gauges and Misc See Section 4.0 for details of each UI Element.
 
-This is broken into three bands View, Layout, and Edit.
-
-## 3.2 View Band
+### View Band
 
 ![](images/layout/view_band.png)
 
@@ -239,24 +246,18 @@ The Zoom In button will enlarge the size of the TFT Simulation.
 
 The Zoom Out button will reduce your view of the TFT Simulation.  Note: You can't make it smaller than your Target Platform's Screen Dimensions.
 
-## 3.3 Edit Band
-
-![](images/layout/edit_band.png)
-
-Copy will copy selected UI Elements to the clipboard.
-
-Cut will copy selected UI Elements to the clipboard and delete them from the current page.
-
-Paste will copy UI Elements from the clipboard to the current page.  You may use that Page tabs to move to a new page. The copied Elements will be slightly offset from the original copied positions.  This is to avoid placing them directly on top of the original Elements.
-
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4 Layout Band
+## Page Layout Tab ![](images/pagelayout.png)]
+
+Contains Layout Band
+
+### Layout Band
 
 ![](images/layout/layout_band.png)
 
-## 3.4.1 Align Top ![](images/layout/align_top.png)
+### Align Top ![](images/layout/align_top.png)
 The easiest way I can think of to show how to use the alignment buttons is with a couple of checkboxes.  Go ahead and create two boxes it doesn't matter where they end up on the TFT Simulation.
 
 ![](images/align_before.png)
@@ -269,14 +270,14 @@ This gives you:
 
 ![](images/top_after.png)
 
-If you click it a second time the elements move to the top margin (set as a default of 5).  You can change the size of margins in the General tab. You can click the UNDO button to get back to the original position and test the other alignment buttons.
+If you click it a second time the elements move to the top margin (set as a default of 10).  You can change the size of margins in the General tab. You can click the UNDO button to get back to the original position and test the other alignment buttons.
 
 ![](images/top_after2.png)
 
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.2 Align Bottom ![](images/layout/align_bottom.png)
+### Align Bottom ![](images/layout/align_bottom.png)
 Before:
 
 ![](images/align_before.png)
@@ -294,7 +295,7 @@ If you click it a second time the elements move to the bottom margin.
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.3 Align Center ![](images/layout/align_center.png)
+### Align Center ![](images/layout/align_center.png)
 
 You can only center one element at a time.
 
@@ -313,7 +314,7 @@ This gives you:
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.4 Align Left ![](images/layout/align_left.png)
+### Align Left ![](images/layout/align_left.png)
 
 Before:
 
@@ -332,7 +333,7 @@ If you click it a second time the elements move to the left margin.
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.5 Align Right ![](images/layout/align_right.png)
+### Align Right ![](images/layout/align_right.png)
 
 Before:
 
@@ -351,7 +352,7 @@ If you click it a second time the elements move to the right margin.
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.6 Align Horizontal Spacing ![](images/layout/align_hspacing.png)
+### Align Horizontal Spacing ![](images/layout/align_hspacing.png)
 
 Before:
 
@@ -372,7 +373,7 @@ This gives you:
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.7 Align Vertical Spacing ![](images/layout/align_vspacing.png)
+### Align Vertical Spacing ![](images/layout/align_vspacing.png)
 
 Before:
 
@@ -393,7 +394,7 @@ This gives you:
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.8 Align Width ![](images/layout/align_width.png)
+### Align Width ![](images/layout/align_width.png)
 
 Before:
 
@@ -410,7 +411,7 @@ This gives you:
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.9 Align Height ![](images/layout/align_height.png)
+### Align Height ![](images/layout/align_height.png)
 
 Before:
 
@@ -427,39 +428,7 @@ This gives you:
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
-## 3.4.10 Rectangular Selection ![](images/layout/selection.png)
-
-Clicking the Rectangular Selection button changes your cursor to a cross and allows you to create a rubber band that you can drag over UI elements to select them.  You start by pressing and holding the left mouse button then dragging the rubber band over yourUI Elements.  Once you release the left mouse button the transaction ends.
-
-![](images/layout/rectangle_select.png)
-
------------------------------------------------
-<div style="page-break-after: always;"></div>
-
-## 3.4.11 Copy Properties ![](images/layout/copy_props.png)
-
-Clicking the Copy Properties button after selecting a UI Element that has one or more properties that you wish to 
-propagate to other UI Elements will bring up a Checklist dialog.  
-
-
-![](images/layout/checklist.png)
-
-You mark the properties you wish copied and click OK. 
- 
------------------------------------------------
-<div style="page-break-after: always;"></div>
-
-Once you have done that a second dialog will come up:
-
-![](images/layout/copyprops_select.png)
-
-Now you to select the Target UI Elements you want to modify. After you have made your selections, click copy and the properties you marked earlier will be copied. 
-
-
------------------------------------------------
-<div style="page-break-after: always;"></div>
-
-## 3.5 Z-Order
+## 3.2 Z-Order
 
 Images in GUIslice are placed one on top of the other.  Drawing begins from the first UI element created to the last.  This is referred to as Z-Order. This generally doesn't cause any issues but there are times you will need to change this Z-Order to avoid obstructing components.
 
@@ -561,7 +530,7 @@ bool CbTickScanner(void* pvGui,void* pvScope)
 | Touch Enabled?      | false                                             |
 | Draw Function       | false, Set true Creates a CbDrawScanner callback  |
 | Tick Function       | false, Set true Creates a CbTickScanner callback  |
-| Use Flash API?      | false       |
+| Use Flash API?      | false. set to true if you need to save ram        |
 
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
@@ -576,7 +545,11 @@ bool CbCheckbox(void* pvGui, void* pvElemRef, int16_t nSelId, bool bState)
     switch (pElem->nId) {
      //<Checkbox Enums !Start!>
      case E_ELEM_CHECK1:
-      //TODO- Replace with your handling code
+      Serial.print("Callback: Check[ID="); Serial.print(pElem->nId); Serial.print("] state=");
+      if(bChecked)
+        Serial.println("true");
+      else
+        Serial.println("false");
       break;
   ...
   return 1;
@@ -599,7 +572,7 @@ See example ex04_bld_ctrls.
 |                     | GSLCX_CHECKBOX_STYLE_ROUND                        |
 | Check Mark Color    | Color.ORANGE Determines the color of check mark   |
 | Callback Enabled?   | false                                             |
-| Use Flash API?      | false                                             |
+| Use Flash API?      | false. set to true if you need to save ram        |
 
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
@@ -787,7 +760,7 @@ Draws a progress bar element that represents a proportion value (nVal) between n
 | Maximum Value         | 100                                            |
 | Starting Value        | 0                                              |
 | Gauge Indicator Color | Color.GREEN                                    |
-| Use Flash API?        | false                                          |
+| Use Flash API?        | false. set to true if you need to save ram     |
 
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
@@ -832,7 +805,16 @@ bool CbCheckbox(void* pvGui, void* pvElemRef, int16_t nSelId, bool bState)
     switch (pElem->nId) {
      //<Checkbox Enums !Start!>
      case E_ELEM_RADIO1:
-      //TODO- Replace with your handling code
+      // For the radio buttons, determine which ID is currently selected (nSelId)
+      // - Note that this may not always be the same as the element that
+      //   issued the callback (pElem->nId)
+      // - A return value of GSLC_ID_NONE indicates that no radio buttons
+      //   in the group are currently selected
+      if (nSelId == GSLC_ID_NONE) {
+        Serial.println("Callback: Radio[ID=NONE] selected");
+      } else {
+        Serial.print("Callback: Radio[ID="); Serial.print(nSelId); Serial.println(")] selected");
+      }
       break;
   ...
 ```
@@ -840,7 +822,7 @@ If you select multiple radio buttons you can use the 'Group' Control Tool ![](im
 | NAME                | VALUE                                             |
 |---------------------|---------------------------------------------------|
 | Key                 | RadioButton$1                                     |
-| ENUM                | E_ELEM_RADIO1
+| ENUM                | E_ELEM_RADIO1                                     |
 | X                   |                                                   |
 | Y                   |                                                   |
 | Width               | 20                                                |
@@ -852,7 +834,7 @@ If you select multiple radio buttons you can use the 'Group' Control Tool ![](im
 |                     | GSLCX_CHECKBOX_STYLE_X                            |
 | Check Mark Color    | Color.ORANGE Determines the color of check mark   |
 | Callback Enabled?   | false                                             |
-| Use Flash API?      | false                                             |
+| Use Flash API?      | false. set to true if you need to save ram        |
 | Group ID            | GSLC_GROUP_ID_NONE                                |
 
 -----------------------------------------------
@@ -974,7 +956,7 @@ See example ex47_ard_seekbar for the visual options and look over the examples f
 | Tick Divisions      | 0                                                     |
 | Tick Size           | 10                                                    |
 | Tick Color          | GSLC_COL_GRAY                                         |
-| Use Flash API?      | false                                                 |
+| Use Flash API?      | false. set to true if you need to save ram.           |
 
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
@@ -1049,7 +1031,6 @@ bool CbSpinner(void* pvGui, void *pvElemRef, int16_t nState, void* pvData)
       case E_ELEM_COMP1:
         //TODO- Add Spinner handling code
         // using gslc_ElemXSpinnerGetCounter(&m_gui, &m_sXSpinner1);
-        gslc_ElemSetTxtStr(&m_gui,m_pElemComp1,acTxtNum);
         break;
   ...
 }
@@ -1078,6 +1059,9 @@ So you can plug in your custom handling code in place of the TODO comment.
 |----------------|-------------------------------------------------------|
 | Increment by   | 1                                                     |
 | Button Size    | 20                                                    |
+| Increment Label| Up Arrow. Right-click to invoke CharacterMap Dialog   |
+| Decrement Label| Down Arrow.                                           |
+
 
 You must have the following set inside your GUIslice/config/ard_xxxx.h file to use this control.
 ```
@@ -1099,14 +1083,16 @@ Most of the builder examples use text fields as labels while some use them to di
 | Height                | 12 based upon the text entered                 |
 | ElementRef            | Allows runtime access to this element if set   |
 | Font                  | Name of your chosen font                       |
-| Text                  | The text to display                            |
-| UTF-8?                | Only 7 bit ascii characters unless checked.    |
-|                       | NOTE: AdaFruit's GFX does not support UTF-8    |
+| Text                  | The text to display. Right click this field    |
+|                       | will bring up a popup that can either clear the|
+|                       | field or invoke CharacterMap dialog.           |
+| UTF-8?                | Only ascii characters unless checked.          |
+|                       | NOTE: Only Target Platform Linux supports UTF-8|
 | External Storage Size | Setting to 0 makes text read-only.             |
 | Text Alignment        | GSLC_ALIGN_MID_LEFT (can be RIGHT or CENTERED) |                          |
 | Fill Enabled?         | true                                           |
 | Frame Enabled?        | false                                          |
-| Use Flash API?        | false set to true if you need to save ram      |
+| Use Flash API?        | false. set to true if you need to save ram     |
 
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
@@ -1220,8 +1206,11 @@ A fuller explanation of when the Builder will create, delete or modify a case st
 | Height                | 40                                             |
 | ElementRef            |                                                |
 | Font                  | BuiltIn(1x)->5x8pt7b                           |
-| Label                 |                                                |
-| UTF-8?                | false                                          |
+| Label                 | The text to display. Right click this field    |
+|                       | will bring up a popup that can either clear the|
+|                       | field or invoke CharacterMap dialog.           |
+| UTF-8?                | Only ascii characters unless checked.          |
+|                       | NOTE: Only Target Platform Linux supports UTF-8|
 | Corners Rounded?      | false                                          |
 | Fill Enabled?         | false                                          |
 | Frame Enabled?        | false                                          |
@@ -1308,14 +1297,15 @@ See ex26_bld_calc for an example of usage.
 | Height                | 12                                               |
 | ElementRef            | m_pElemVal1                                      |
 | Font                  | BuiltIn(1x)->5x8pt7b                             |
-| UTF-8?                | false                                            |
-| Field Size            | 6                                                |
-| Text Alignment        | GSLC_ALIGN_MID_LEFT                              |
+| UTF-8?                | Only ascii characters unless checked.            |
+|                       | NOTE: Only Target Platform Linux supports UTF-8  |
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
 | NAME                  | VALUE                                            |
 |-----------------------|--------------------------------------------------|
+| Field Size            | 6                                                |
+| Text Alignment        | GSLC_ALIGN_MID_LEFT                              |
 | Fill Enabled?         | true                                             |
 | Use Flash API?        | false set to true if you need to save ram        |
 | Text Color            | Color.YELLOW                                     |
@@ -1365,12 +1355,16 @@ See ex26_bld_alpha for an example.
 | Height                | 10                                               |
 | ElementRef            | m_pElemInTxt1                                    |
 | Font                  | BuiltIn(1x)->5x8pt7b                             |
-| UTF-8?                | false                                            |
+| Text                  | The text to display. Right click this field      |
+|                       | will bring up a popup that can either clear the  |
+|                       | field or invoke CharacterMap dialog.             |
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
 | NAME                  | VALUE                                            |
 |-----------------------|--------------------------------------------------|
+| UTF-8?                | Only ascii characters unless checked.            |
+|                       | NOTE: Only Target Platform Linux supports UTF-8  |
 | Field Size            | 10                                               |
 | Text Alignment        | GSLC_ALIGN_MID_LEFT                              |
 | Fill Enabled?         | true                                             |
@@ -1564,6 +1558,8 @@ For this support the actual font C Headers and C files are stored inside the Bui
          |- PLAIN
      |- glcd
      |- t3
+     |- ttf (Place linux true type font files here and add the names to builder_fonts.json)
+     |- vlw smooth fonts created by Processing IDE for TFT_eSPI driver
 ```  
 
 The Builder ships with FreeFonts, Google's Dosis and Noto(tm) fonts pre-built for Adafruit's GFX format.  You can use them by 
@@ -1572,16 +1568,27 @@ depending upon your target platform.
 
 You may add additional Adafruit compatible fonts and/or Teensy ILI9341_T3 fonts by copying them into the Builder's font folder, GUIsliceBuilder/fonts 
 under either the gfx or t3 folder. You must create a folder that can be used by the Builder as the Font's Family name ie: 'FreeMono'. 
-Under this new folder you must create Font Style sub-folders, any combination of BOLD, BOLD_ITALIC, ITALIC, or PLAIN depnding upon what fonts you have decided to add.
+Under this new folder you must create Font Style sub-folders, any combination of BOLD, BOLD_ITALIC, ITALIC, or PLAIN depending upon what fonts you have decided to add.
 
 For Teensy fonts don't forget to copy both the Headers and C files. 
 
-You do not need to edit the builder_fonts.json file for these new fonts, just drop them into the new folders and restart the Builder.
+You do not need to edit the builder_fonts.json file for these new Adafruit GFX or T3 fonts, just drop them into the new folders and restart the Builder.
+
+VLW smoothfonts do need edits to the builder_fonts.json file to add them. Google's Noto Bold is already 
+supported so you can use its entries as a guide.  Note that you don't place the actual *.vlw fonts in the 
+Builders folders. You place the *.ttf file that you used as input to Processing IDE that created your *.vlw 
+fonts. The Builder can't read the *.vlw files only the TrueType fonts. You will however notice a sub folder 
+called data where the NotoBold vlw files have been placed as a convenience so you don't need to generate them, 
+just copy to your Arduino project data folder. See Appendix G for information on creating vlw fonts.
+
+Please remember usage of the fonts require you to copy them to either Adafruit-GFX/Fonts or to TFT_eSPI/Fonts/GFXFF depending upon your driver.
 
 If you need to use a font that doesn't fall into the above categories then you will need to tell the Builder to simulate it. 
 This is fairly easy to do but can be a bit fussy. There isn't much error handling so be careful with edits. 
 If an error is detected it will be reported inside GUIsliceBuilder/logs/builder.log. You should get a line number and most likely 
 a cryptic message. For example: saying a name was expected. Look for extra or missing commas ',', brackets ']' or curly braces '}'.
+
+When you add your own fonts there is one additional requirement. For Adafruit GFX fonts you need to create at least one fone size 10 or less, while TrueType, or vlw needs at least one size 18 or less. The Builder requires this for Property Table display of your text fields.
 
 The builder_fonts.json file format is documented in Appendix B.
 
@@ -1592,19 +1599,20 @@ If you edit this file you must restart the Builder it will then use the new font
 
 # Appendix A - Acknowledgements
 
-## Insubstantial Project
+## JRibbonBar Project
 
-The GUIsliceBuilder's Ribbon code is provided by the Insubstantial project written by Kirill Grouchnikov. This project is no longer supported and has been replaced by Radiance project which requires Java 9 or Higher so we can't use it. The Insubstantial jar files involved are:
+The GUIsliceBuilder's Ribbon code is provided by the JRibbonBar project written by Csekme Krisztián, Software Engineer at CalTec.
 
-- **flamingo-7.3.1-SNAPSHOT.jar**
-- **trident-7.3.1-SNAPSHOT.jar**
-- **substance-7.3.1-SNAPSHOT.jar**
+- **RibbonMenu-1.0.6.jar**
+
+The JRibbonBar project is on GitHub:
+<https://github.com/csekme/JRibbonMenu>
 
 ## FlatLaf Project
 
 The Non-Built IN Java Themes are supported by the FlatLaf project. The jar file is:
 
-- **flatlaf-0.38.jar**
+- **flatlaf-1.0-rc1.jar**
 
 The FlatLaf project is on GitHub: 
 <https://github.com/JFormDesigner/FlatLaf>
@@ -1703,7 +1711,9 @@ The Categories supported are:
 - FONT_GFX which are Adafruit's GFX compatible fonts.
 - FONT_GLCD which are Adafruit's classic built-in fonts
 - FONT_T3 which are Teensy's ili9341_t3 fonts
-- FONT_SIM which are any fonts that the Builder needs to simulate using Java's built-in fonts.
+- FONT_SIM which are any fonts that the Builder needs to simulate using Java's built-in fonts which limits you to using "logicalName": "Monospaced" or "SansSerif" or "Serif". It limits you to 255 characters in your character set maximum.
+- FONT_TTF which are TrueType fonts used by Linux
+- FONT_VLW which are smoothfonts supported by TFT_eSPI driver. 
 
 The FONT_GFX, FONT_GLCD, and FONT_T3 fonts are supported as native fonts. That is the BUilder 
 actually reads and parses the C headers or C files that define the font.  It uses that information 
@@ -1733,34 +1743,33 @@ display the font within your UI Elements on the TFT Simulation Panel.
 
 The fields are:
 
-1.  FontName - No Default
+1.  **fontName** - No Default
     refers to the font family, ex: Dosis SansSerif, FreeFont Sans, Noto Mono, etc...
-2.  DisplayName - No Default
+2.  **displayName** - No Default
     refers to the actual font on the target platform, Ex: 'FreeSans12pt7b'.
-3.  IncludeFile - Default: NULL
+3.  **includeFile** - Default: NULL
     on the arduino platform it points to where to find a font, ex: 'Fonts/FreeSansBold12pt7b.h' or NULL
-4.  DefineFile - Default: NULL
+4.  **defineFile** - Default: NULL
     On linux platform it points to the font, Ex: '/usr/share/fonts/truetype/droid/DroidSans.ttf'
-5.  eFontRefType - Default: GSLC_FONTREF_PTR
+5.  **eFontRefType** - Default: GSLC_FONTREF_PTR
     GUIslice API parameter Font reference type (eg. filename "GSLC_FONTREF_FNAME" or pointer "GSLC_FONTREF_PTR")
-6.  pvFontRef - No default
+6.  **pvFontRef** - No default
     GUIslice API parameter Reference pointer to identify the font. 
-    Example: for GSLC_FONTREF_PTR it's "&display name" like "&FreeMono9pt7b" which must be a 
-    pointer value to the font bitmap array.
-    In the case of SDL mode, it is a filepath to the font file. In the case of Arduino it is 
-     (GFXFont)
-7.  nFontSz - Default: 1
+    Example: Adafruit FreeFonts would be GSLC_FONTREF_PTR it's "&display name" like "&FreeMono9pt7b" which must be a 
+    pointer value to the font bitmap array. TFT_eSPI Smooth Fonts stored in Flash would also be defined this way.
+    In the case of SDL mode or TFT_eSPI Smooth Fonts, it is a filepath to the font file.
+7.  **nFontSz** - Default: 1
     GUIslice API parameter Typeface size to use. For Arduino built-in fonts a number from 1 to 5, 
     Most fonts will set this to 1, while in SDL mode its actual logical size of font.
-8.  LogicalFont - Default: NULL
+8.  **logicalFont** - Default: NULL
     Used only when font type is FONT_SIM. It's the name java needs to use when accessing this font.
     Java ships with five platform independent fonts: Dialog, DialogInput, SansSerif, Serif, and Monospaced. 
     It doesn't have to be a Java builtin font but must be whatever name the operating system uses.
-9.  LogicalFontSize - No Default
+9.  **logicalFontSize** - No Default
     The size of the Font.
-10. LogicalFontStyle - No Default
+10. **logicalFontStyle** - No Default
     The font style, PLAIN, BOLD, ITALIC, BOLD+ITALIC
-11. fontRefMode - Default: GSLC_FONTREF_MODE_DEFAULT
+11. **fontRefMode** - Default: GSLC_FONTREF_MODE_DEFAULT
     This is for drivers that need special handling within GUIslice API. 
 
 If the default value of a font field satisfactory for your font you can simply skip the field.
@@ -1780,50 +1789,15 @@ By default, most graphics libraries use the FontRefMode GSLC_FONTREF_MODE_DEFAUL
 For example:
 
 * The RA8876 display driver uses FONTREF_MODE_DEFAULT to select the internal ROM fonts, whereas other modes are used to select fonts from external ROM chips.
-* The RA8875_SUMO display driver uses FONTREF_MODE_DEFAULT to select the Adafruit-GFX fonts, whereas FONTREF_MODE_1 is used to select an ILI9341_t3_font.
-* The ILI9341_t3 display driver uses FONTREF_MODE_DEFAULT to select the Adafruit-GFX fonts, whereas FONTREF_MODE_1 is used to select an ILI9341_t3_font.
-
+* The RA8875_SUMO display driver uses FONTREF_MODE_DEFAULT to select the Adafruit-GFX fonts, whereas GSLC_FONTREF_MODE_1 is used to select an ILI9341_t3_font.
+* The ILI9341_t3 display driver uses FONTREF_MODE_DEFAULT to select the Adafruit-GFX fonts, whereas GSLC_FONTREF_MODE_1 is used to select an ILI9341_t3_font.
+* TFT_eSPI Smooth Fonts stored in Flash must have fontRefMode defined as GSLC_FONTREF_MODE_1.
 -----------------------------------------------
 <div style="page-break-after: always;"></div>
 
 # Appendix C - CopyRight Notices
 
-## Insubstantial project CopyRight
-
-The CopyRight Notice for the Insubstantial project is reproduced in full here:
-
-Copyright (c) 2005-2010 Kirill Grouchnikov. All Rights Reserved.
-
-Redistribution and use in source and binary forms, with or without 
-modification, are permitted provided that the following conditions are met:
-
- - Redistributions of source code must retain the above copyright notice, 
-   this list of conditions and the following disclaimer. 
-   
- - Redistributions in binary form must reproduce the above copyright notice, 
-   this list of conditions and the following disclaimer in the documentation 
-   and/or other materials provided with the distribution. 
-   
- - Neither the name of Flamingo Kirill Grouchnikov nor the names of 
-   its contributors may be used to endorse or promote products derived 
-   from this software without specific prior written permission. 
-   
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
-AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
-THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
-PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR 
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
-EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
-PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
-OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, 
-WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
-OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
-EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
-
------------------------------------------------
-<div style="page-break-after: always;"></div>
-
-## FlatLaf project, Google's gson and Apache Logging CopyRights are based upon Apache License version 2.0.
+## Apache Logging, FlatLaf project, Google's gson, and JRibbonBar CopyRights are based upon Apache License version 2.0.
 
                                  Apache License
                            Version 2.0, January 2004
@@ -2189,4 +2163,32 @@ There are some cases where meta-id is not used and a few places where templates 
 The most current and complete list of Ids is inside the source code 
 
 `builder/src/main/java/resources/templates/meta_ids.csv`
+
+-----------------------------------------------
+<div style="page-break-after: always;"></div>
+
+# Appendix G - Creating VLW Fonts
+
+Begin by downloading the Processing IDE from
+[Download Processing](https://processing.org/download/)
+
+Open Processing IDE and select tools->create_font
+![](images/fonts/tools.png)
+
+Select your font from the installed fonts and also the font size:
+![](images/fonts/create_font.png)
+
+-----------------------------------------------
+<div style="page-break-after: always;"></div>
+
+Optionally you can make your font use less memeory by selecting character selector and picking your unicode code blocks for specific characters:
+![](images/fonts/character_selector.png)
+
+You may repeat this process as often as required. 
+
+Once you have converted all the fonts and sizes needed you need then open your sketch to find these new fonts:
+![](images/fonts/show_folder.png)
+
+Your new fonts will be inside the data sub folder. Copy them to your project's data folder.
+
 

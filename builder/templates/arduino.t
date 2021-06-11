@@ -35,13 +35,13 @@
   gslc_ElemCreateBox_P(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
     $<COL-302>,$<COL-303>,true,true,&CbDrawScanner,&CbTickScanner);
 <STOP>
-<BOX_DRAW_P>
+<BOX_DRAW_FUNCT_P>
    
   // Create $<COM-002> box in flash
   gslc_ElemCreateBox_P(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
     $<COL-302>,$<COL-303>,true,true,&CbDrawScanner,NULL);
 <STOP>
-<BOX_TICK_P>
+<BOX_TICK_FUNCT_P>
    
   // Create $<COM-002> box in flash
   gslc_ElemCreateBox_P(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
@@ -130,7 +130,7 @@ $<CALLBACK>
   gslc_ElemXCheckboxSetStateFunc(&m_gui, pElemRef, &CbCheckbox);
 <STOP>
 <CHECKBOXSETSTATE_P>
-  // gslc_ElemXCheckboxSetStateFunc(); currently not supported by the FLASH _P calls.
+  gslc_ElemXCheckboxSetStateFunc(&m_gui, $<COM-019>, &CbCheckbox);
 <STOP>
 <CHECKBOX_CB>
 // Checkbox / radio callbacks
@@ -273,7 +273,7 @@ gslc_tsElemRef* $<18>$<ELEMREF>= NULL;
   // gslc_ElemSetFillEn(); currently not supported by the FLASH _P calls.
 <STOP>
 <FONT_DEFINE>
-// #define $<FONT_REF> "$<DEFINE_FILE>" linux only
+#define $<FONT_REF> "$<DEFINE_FILE>"
 <STOP>
 <FONT_INCLUDE>
 #include "$<INCLUDE_FILE>"
@@ -336,6 +336,22 @@ gslc_tsElemRef                  m_as$<STRIP_KEY>ElemRef[MAX_ELEM_$<STRIP_ENUM>];
           $<IBTN-110>$<IBTN-108>,$<IBTN-104>),
           $<IBTN-113>$<IBTN-109>,$<IBTN-104>),
           &CbBtnCommon);
+<STOP>
+<IMGTOGGLE_DEFINE>
+  
+  // Create $<COM-002> button with image label
+  pElemRef = gslc_ElemXToggleImgbtnCreate(&m_gui,$<COM-002>,$<COM-000>,&m_sToggleImg$<COM-018>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
+          $<IBTN-110>$<IBTN-102>,$<IBTN-104>),
+          $<IBTN-113>$<IBTN-103>,$<IBTN-104>),
+          false,&CbBtnCommon);
+<STOP>
+<IMGTOGGLE_EXTERN>
+  
+  // Create $<COM-002> button with image label
+  pElemRef = gslc_ElemXToggleImgbtnCreate(&m_gui,$<COM-002>,$<COM-000>,&m_sToggleImg$<COM-018>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
+          $<IBTN-110>$<IBTN-108>,$<IBTN-104>),
+          $<IBTN-113>$<IBTN-109>,$<IBTN-104>),
+          false,&CbBtnCommon);
 <STOP>
 <IMAGETRANSPARENT>
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
@@ -703,10 +719,13 @@ $<CALLBACK>
       break;
 <STOP>
 <SPINNER>
+
   // Add Spinner element
   pElemRef = gslc_ElemXSpinnerCreate(&m_gui,$<COM-002>,$<COM-000>,&m_sXSpinner$<COM-018>,
     (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},$<SLD-100>,$<SLD-101>,$<SLD-102>,$<SPIN-100>,$<TXT-211>,$<COM-013>,&CbSpinner);
-
+<STOP>
+<SPINNER_ARROWS>
+  gslc_ElemXSpinnerSetChars(&m_gui,pElemRef,(uint8_t)$<ARROW_UP>,(uint8_t)$<ARROW_DOWN>);
 <STOP>
 <SPINNER_CB>
 // Spinner Input Ready callback
@@ -739,13 +758,13 @@ $<CALLBACK>
   
   // Create $<COM-002> text label
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
-    (char*)"$<TXT-201>",0,$<TXT-211>);
+    (char*)$<TEXT>,0,$<TXT-211>);
 <STOP>
 <TEXT_P>
   
   // Create $<COM-002> text label using flash API
   gslc_ElemCreateTxt_P(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
-    "$<TXT-201>",&m_asFont[$<TXT-211>],
+    $<TEXT>,&m_asFont[$<TXT-211>],
     $<COL-301>,$<COL-302>,$<COL-303>,$<TXT-213>,false,true);
 <STOP>
 <TEXTALIGN>
@@ -793,14 +812,14 @@ $<CALLBACK>
 <TEXT_INPUT>
   
   // Create $<COM-002> text input field
-  static char m_sInputText$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sInputText$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_sInputText$<COM-018>,$<TXT-205>,$<TXT-211>);
 <STOP>
 <TEXT_INPUT_P>
   
   // Create $<COM-002> text input field
-  static char m_sInputText$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sInputText$<COM-018>[$<TXT-205>] = $<TEXT>;
   gslc_ElemCreateTxt_P_R_ext(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
     m_sInputText$<COM-018>,$<TXT-205>,&m_asFont[$<TXT-211>],
     $<COL-301>,$<COL-301>,$<COL-302>,$<COL-303>,$<TXT-213>,$<TXT-212>,$<TXT-212>,
@@ -809,14 +828,14 @@ $<CALLBACK>
 <TEXT_INPUT_NUM>
   
   // Create $<COM-002> numeric input field
-  static char m_sInputNumber$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sInputNumber$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_sInputNumber$<COM-018>,$<TXT-205>,$<TXT-211>);
 <STOP>
 <TEXT_INPUT_NUM_P>
   
   // Create $<COM-002> numeric input field
-  static char m_sInputNumber$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sInputNumber$<COM-018>[$<TXT-205>] = $<TEXT>;
   gslc_ElemCreateTxt_P_R_ext(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
     m_sInputNumber$<COM-018>,$<TXT-205>,&m_asFont[$<TXT-211>],
     $<COL-301>,$<COL-301>,$<COL-302>,$<COL-303>,$<TXT-213>,$<TXT-212>,$<TXT-212>,
@@ -828,14 +847,14 @@ $<CALLBACK>
 <TEXT_UPDATE>
   
   // Create $<COM-002> runtime modifiable text
-  static char m_sDisplayText$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sDisplayText$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_sDisplayText$<COM-018>,$<TXT-205>,$<TXT-211>);
 <STOP>
 <TEXT_UPDATE_P>
   
   // Create $<COM-002> modifiable text using flash API
-  static char m_sDisplayText$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sDisplayText$<COM-018>[$<TXT-205>] = $<TEXT>;
   gslc_ElemCreateTxt_P_R_ext(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
     m_sDisplayText$<COM-018>,$<TXT-205>,&m_asFont[$<TXT-211>],
     $<COL-301>,$<COL-301>,$<COL-302>,$<COL-303>,$<TXT-213>,$<TXT-212>,$<TXT-212>,
@@ -878,20 +897,20 @@ bool CbTickScanner(void* pvGui,void* pvScope)
   
   // create $<COM-002> button with text label
   pElemRef = gslc_ElemCreateBtnTxt(&m_gui,$<COM-002>,$<COM-000>,
-    (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},(char*)"$<TXT-202>",0,$<TXT-211>,&CbBtnCommon);
+    (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},(char*)$<TEXT>,0,$<TXT-211>,&CbBtnCommon);
 <STOP>
 <TXTBUTTON_P>
   
   // create $<COM-002> button with text label
   gslc_ElemCreateBtnTxt_P(&m_gui,$<COM-002>,$<COM-000>,$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>,
-    "$<TXT-202>",&m_asFont[$<TXT-211>],
+    $<TEXT>,&m_asFont[$<TXT-211>],
     $<COL-301>,$<COL-302>,$<COL-303>,$<COL-302>,
     $<COL-304>,$<TXT-213>,true,true,&CbBtnCommon,NULL);
 <STOP>
 <TXTBUTTON_UPDATE>
   
   // Create $<COM-002> button with modifiable text label
-  static char m_strbtn$<COM-018>[$<TXT-205>] = "$<TXT-202>";
+  static char m_strbtn$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateBtnTxt(&m_gui,$<COM-002>,$<COM-000>,
     (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_strbtn$<COM-018>,$<TXT-205>,$<TXT-211>,&CbBtnCommon);

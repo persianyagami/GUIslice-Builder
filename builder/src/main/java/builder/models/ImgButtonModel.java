@@ -68,11 +68,13 @@ public class ImgButtonModel extends WidgetModel {
   static private final int PROP_MEMORY_SEL      = 14;
   static private final int PROP_FORMAT          = 15;
   static private final int PROP_TRANSPARENCY    = 16;
-  static private final int PROP_JUMP_PAGE       = 17;
-  static private final int PROP_POPUP_PAGE      = 18;
-  static private final int PROP_POPUP_HIDE      = 19;
-  static private final int PROP_FRAME_EN        = 20;
-  static private final int PROP_FRAME_COLOR     = 21;
+  static private final int PROP_TOGGLE          = 17;
+  static public  final int PROP_GROUP           = 18;
+  static private final int PROP_JUMP_PAGE       = 19;
+  static private final int PROP_POPUP_PAGE      = 20;
+  static private final int PROP_POPUP_HIDE      = 21;
+  static private final int PROP_FRAME_EN        = 22;
+  static private final int PROP_FRAME_COLOR     = 23;
 
   /** The Property Defaults */
   static public  final String  DEF_IMAGE             = "";
@@ -85,9 +87,14 @@ public class ImgButtonModel extends WidgetModel {
   static public  final String  DEF_MEMORY_SEL        = "";
   static public  final String  DEF_FORMAT            = "";
   static public  final Boolean DEF_TRANSPARENCY      = Boolean.FALSE;
+  static public  final Boolean DEF_TOGGLE            = Boolean.FALSE;
   static public  final Boolean DEF_POPUP_HIDE        = Boolean.FALSE;
   static public  final Boolean DEF_FRAME_EN          = Boolean.FALSE;
   static public  final Color   DEF_FRAME_COLOR       = Color.WHITE;
+  static public  final String  DEF_GROUP             = "GSLC_GROUP_ID_NONE";  
+  
+  /** The Constant for gslc_tsElemRef* m_pElementRef name */
+  public static final String ELEMENTREF_NAME = "m_pElemToggleImg";
   
   /** The image. */
   private BufferedImage image;
@@ -133,7 +140,7 @@ public class ImgButtonModel extends WidgetModel {
   protected void initProperties()
   {
     widgetType = EnumFactory.IMAGEBUTTON;
-    data = new Object[22][5];
+    data = new Object[24][5];
     
     initCommonProps(0, 0);
     
@@ -155,6 +162,7 @@ public class ImgButtonModel extends WidgetModel {
 
     initProp(PROP_FORMAT, String.class, "IBTN-104", Boolean.FALSE,"Image Format",DEF_FORMAT);
     initProp(PROP_TRANSPARENCY, Boolean.class, "IBTN-107", Boolean.FALSE,"Transparent?",DEF_TRANSPARENCY);
+    initProp(PROP_TOGGLE, Boolean.class, "IBTN-112", Boolean.FALSE,"Toggle?",DEF_TOGGLE);
 
     initProp(PROP_JUMP_PAGE, String.class, "TBNT-101", Boolean.FALSE,"Jump Page ENUM","");
     initProp(PROP_POPUP_PAGE, String.class, "TBTN-104", Boolean.TRUE,"Popup Page Enum","");
@@ -163,6 +171,7 @@ public class ImgButtonModel extends WidgetModel {
     initProp(PROP_FRAME_EN, Boolean.class, "COM-010", Boolean.FALSE,"Frame Enabled?",DEF_FRAME_EN);
     initProp(PROP_FRAME_COLOR, Color.class, "COL-302", Boolean.FALSE,"Frame Color",DEF_FRAME_COLOR);
 
+    initProp(PROP_GROUP, String.class, "RBTN-101", Boolean.TRUE,"Group ID",DEF_GROUP);
   }
 
   /**
@@ -307,6 +316,16 @@ public class ImgButtonModel extends WidgetModel {
   }
   
   /**
+   * is Toggle?
+   *
+   * @return <code>true</code>, if successful
+   */
+  @Override
+  public boolean isToggle() {
+    return (((Boolean) data[PROP_TOGGLE][PROP_VAL_VALUE]).booleanValue());
+  }
+  
+  /**
    * Gets the frame color.
    *
    * @return the frame color
@@ -370,6 +389,8 @@ public class ImgButtonModel extends WidgetModel {
       data[row][PROP_VAL_VALUE] = value;
     }
     fireTableCellUpdated(row, 1);
+    if (row > PROP_HEIGHT || row == PROP_ENUM)
+      super.setModelChanged();
     if (row == PROP_JUMP_PAGE) {
       if (getJumpPage().isEmpty()) {
         data[PROP_POPUP_PAGE][PROP_VAL_READONLY]=Boolean.FALSE;
@@ -415,6 +436,23 @@ public class ImgButtonModel extends WidgetModel {
       fireTableCellUpdated(PROP_JUMP_PAGE, COLUMN_VALUE);
       fireTableCellUpdated(PROP_POPUP_PAGE, COLUMN_VALUE);
     }
+  
+    if (row == PROP_TOGGLE) {
+      if (isToggle()) {
+        data[PROP_GROUP][PROP_VAL_READONLY]=Boolean.FALSE;
+      } else {
+        data[PROP_GROUP][PROP_VAL_READONLY]=Boolean.TRUE;
+      }
+      if (isToggle()) {
+        if (getElementRef().isEmpty()) {
+          setElementRef(CommonUtils.createElemName(getKey(), ELEMENTREF_NAME));
+        }
+      } else if (!getElementRef().isEmpty() && getElementRef().startsWith(ELEMENTREF_NAME)) {
+        setElementRef(""); 
+      }
+      fireTableCellUpdated(PROP_ELEMENTREF, COLUMN_VALUE);
+    }
+
     if (bSendEvents) {
       if (row == PROP_ENUM) {
         MsgBoard.sendEnumChange(getKey(), getKey(), getEnum());
@@ -467,6 +505,16 @@ public class ImgButtonModel extends WidgetModel {
    */
   public BufferedImage getImage() {
     return image;
+  }
+
+  /**
+   * Sets the image.
+   *
+   * @return the image
+   */
+  @Override
+  public void setImage(BufferedImage image) {
+    this.image = image;
   }
 
   /**
@@ -547,8 +595,19 @@ public class ImgButtonModel extends WidgetModel {
    *
    * @return the image selected
    */
+  @Override
   public BufferedImage getImageSelected() {
     return imageSelected;
+  }
+
+  /**
+   * Sets the image selected.
+   * used by copy/paste
+   * @param the image selected
+   */
+  @Override
+  public void setImageSelected(BufferedImage imageSelected) {
+    this.imageSelected = imageSelected;
   }
 
   /**
@@ -701,6 +760,17 @@ public class ImgButtonModel extends WidgetModel {
   }
   
   /**
+   * Gets the group id.
+   *
+   * @return the group id
+   */
+
+  @Override
+  public String getGroupId() {
+    return ((String) data[PROP_GROUP][PROP_VAL_VALUE]);
+  }
+
+  /**
    * readModel() will deserialize our model's data from a string object for backup
    * and recovery.
    *
@@ -832,6 +902,10 @@ public class ImgButtonModel extends WidgetModel {
       data[PROP_MEMORY][PROP_VAL_VALUE] = SRC_SD;
       data[PROP_MEMORY_SEL][PROP_VAL_VALUE] = SRC_SD;
     }
+    if (((String)data[PROP_GROUP][PROP_VAL_VALUE]).isEmpty()) {
+      data[PROP_GROUP][PROP_VAL_VALUE] = "GSLC_GROUP_ID_NONE";
+    }
+
   }     
 
 }

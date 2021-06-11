@@ -2,7 +2,7 @@
  *
  * The MIT License
  *
- * Copyright 2018-2020 Paul Conti
+ * Copyright 2018-2021 Paul Conti
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,14 +35,17 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import builder.common.EnumFactory;
 import builder.controller.Controller;
 import builder.prefs.NumKeyPadEditor;
+import builder.tables.TextTFTCellRenderer;
 import builder.events.MsgBoard;
 import builder.fonts.FontFactory;
 import builder.fonts.FontItem;
 import builder.fonts.FontTFT;
+import builder.fonts.InputTextField;
 
 /**
  * The Class TextInputModel implements the model for the TextInput widget.
@@ -96,6 +99,10 @@ public class NumberInputModel extends WidgetModel {
   /** The align cell editor. */
   DefaultCellEditor alignCellEditor;
 
+  private InputTextField textBox = new InputTextField(DEF_TEXT);
+  private DefaultCellEditor editorText;
+  private TextTFTCellRenderer rendererText;
+
   /**
    * Instantiates a new text model.
    */
@@ -112,10 +119,20 @@ public class NumberInputModel extends WidgetModel {
   private void initAlignments()
   {
     cbAlign = new JComboBox<String>();
-    cbAlign.addItem("GSLC_ALIGN_MID_LEFT");
-    cbAlign.addItem("GSLC_ALIGN_MID_MID");
-    cbAlign.addItem("GSLC_ALIGN_MID_RIGHT");
+    cbAlign.addItem(FontTFT.ALIGN_LEFT);
+    cbAlign.addItem(FontTFT.ALIGN_CENTER);
+    cbAlign.addItem(FontTFT.ALIGN_RIGHT);
+    cbAlign.addItem(FontTFT.ALIGN_TOP_LEFT);
+    cbAlign.addItem(FontTFT.ALIGN_TOP_CENTER);
+    cbAlign.addItem(FontTFT.ALIGN_TOP_RIGHT);
+    cbAlign.addItem(FontTFT.ALIGN_BOT_LEFT);
+    cbAlign.addItem(FontTFT.ALIGN_BOT_CENTER);
+    cbAlign.addItem(FontTFT.ALIGN_BOT_RIGHT);
     alignCellEditor = new DefaultCellEditor(cbAlign);
+    textBox.setFontTFT(ff, null);
+    editorText = new DefaultCellEditor(textBox);
+    rendererText = new TextTFTCellRenderer();
+    rendererText.setFontTFT(ff, null);
   }
   
   /**
@@ -204,9 +221,24 @@ public class NumberInputModel extends WidgetModel {
    * @see builder.models.WidgetModel#getEditorAt(int)
    */
   @Override
-  public TableCellEditor getEditorAt(int rowIndex) {
-    if (rowIndex == PROP_TEXT_ALIGN)
+  public TableCellEditor getEditorAt(int row) {
+    if (row == PROP_TEXT)
+      return editorText;
+    if (row == PROP_TEXT_ALIGN)
       return alignCellEditor;
+    return null;
+  }
+
+  /**
+   * getRendererAt
+   *
+   * @see builder.models.WidgetModel#getRendererAt(int)
+   */
+  @Override
+  public TableCellRenderer getRendererAt(int row) {
+    if (row == PROP_TEXT) {
+      return rendererText;
+    }
     return null;
   }
 
@@ -234,7 +266,12 @@ public class NumberInputModel extends WidgetModel {
       calcSizes(true);
     } 
     if (row == PROP_FONT) {
+      String fontName = getFontDisplayName();
+      FontTFT myFont = ff.getFont(fontName);
+      textBox.setFontTFT(ff, myFont);
+      rendererText.setFontTFT(ff, myFont);
       calcSizes(true);
+      fireTableCellUpdated(PROP_TEXT, COLUMN_VALUE);
     } 
     if (row == PROP_TEXT_SZ) {
       calcSizes(true);
@@ -399,6 +436,7 @@ public class NumberInputModel extends WidgetModel {
   * 
   * @param fireUpdates indicates that we should notify JTable of changes
   */
+  @Override
   public void calcSizes(boolean fireUpdates) {
     // first does the current font exist? 
     // if we changed target plaform we might need to change font to default
@@ -426,34 +464,6 @@ public class NumberInputModel extends WidgetModel {
       fireTableCellUpdated(PROP_WIDTH, COLUMN_VALUE);
       fireTableCellUpdated(PROP_HEIGHT, COLUMN_VALUE);
     }
-  }
-
-  /**
-   * Copy selected properties from another model.
-   * Called by the CopyPropsCommand.
-   * @param checklistData
-   *          the widget model
-   */
-  @Override
-  public void copyProperties(Object checklistData[][]) {
-    super.copyProperties(checklistData);
-    calcSizes(true);
-  }
-  
-  /**
-   * Paste properties from the PasteCommand.
-   *
-   * @param m
-   *          the widget model
-   * @param x
-   *          the x
-   * @param y
-   *          the y
-   */
-  @Override
-  public void pasteProps(WidgetModel m, int x, int y) {
-    super.pasteProps(m,x,y);
-    calcSizes(false);
   }
 
 }

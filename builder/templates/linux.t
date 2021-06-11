@@ -255,6 +255,19 @@ gslc_tsElemRef                  m_as$<STRIP_KEY>ElemRef[MAX_ELEM_$<STRIP_ENUM>];
           $<IBTN-113>m_strImgBtnSelPath$<COUNT>,$<IBTN-104>),
           &CbBtnCommon);
 <STOP>
+<IMGTOGGLE_DEFINE>
+  
+  // Create $<COM-002> button with image label
+  // - Extra code to for path generation based on location of executable
+  strncpy(m_strImgBtnPath$<COUNT>,strPath,MAX_PATH);
+  strncat(m_strImgBtnPath$<COUNT>,$<IBTN-102>,MAX_PATH);
+  strncpy(m_strImgBtnSelPath$<COUNT>,strPath,MAX_PATH);
+  strncat(m_strImgBtnSelPath$<COUNT>,$<IBTN-103>,MAX_PATH);
+  pElemRef = gslc_ElemXToggleImgbtnCreate(&m_gui,$<COM-002>,$<COM-000>,&m_sToggleImg$<COM-018>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
+          $<IBTN-110>m_strImgBtnPath$<COUNT>,$<IBTN-104>),
+          $<IBTN-113>m_strImgBtnSelPath$<COUNT>,$<IBTN-104>),
+          false,&CbBtnCommon);
+<STOP>
 <IMAGETRANSPARENT>
   gslc_ElemSetFillEn(&m_gui,pElemRef,false);
 <STOP>
@@ -584,6 +597,12 @@ $<CALLBACK>
   return true;
 }
 <STOP>
+<SEEKBAR_CB_CASE>
+    case $<COM-002>:
+      // Fetch the slider position
+      nVal = gslc_ElemXSeekbarGetPos(pGui,$<COM-019>);
+      break;
+<STOP>
 <SLIDER_CB_CASE>
     case $<COM-002>:
       // Fetch the slider position
@@ -592,10 +611,13 @@ $<CALLBACK>
       break;
 <STOP>
 <SPINNER>
+
   // Add Spinner element
   pElemRef = gslc_ElemXSpinnerCreate(&m_gui,$<COM-002>,$<COM-000>,&m_sXSpinner$<COM-018>,
     (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},$<SLD-100>,$<SLD-101>,$<SLD-102>,$<SPIN-100>,$<TXT-211>,$<COM-013>,&CbSpinner);
-
+<STOP>
+<SPINNER_ARROWS>
+  gslc_ElemXSpinnerSetChars(&m_gui,pElemRef,(uint8_t)$<ARROW_UP>,(uint8_t)$<ARROW_DOWN>);
 <STOP>
 <SPINNER_CB>
 // Spinner Input Ready callback
@@ -628,7 +650,7 @@ $<CALLBACK>
   
   // Create $<COM-002> text label
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
-    (char*)"$<TXT-201>",0,$<TXT-211>);
+    (char*)$<TEXT>,0,$<TXT-211>);
 <STOP>
 <TEXTALIGN>
   gslc_ElemSetTxtAlign(&m_gui,pElemRef,$<TXT-213>);
@@ -672,14 +694,14 @@ $<CALLBACK>
 <TEXT_INPUT>
   
   // Create $<COM-002> text input field
-  static char m_sInputText$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sInputText$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_sInputText$<COM-018>,$<TXT-205>,$<TXT-211>);
 <STOP>
 <TEXT_INPUT_NUM>
   
   // Create $<COM-002> numeric input field
-  static char m_sInputNumber$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sInputNumber$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_sInputNumber$<COM-018>,$<TXT-205>,$<TXT-211>);
 <STOP>
@@ -689,7 +711,7 @@ $<CALLBACK>
 <TEXT_UPDATE>
   
   // Create $<COM-002> runtime modifiable text
-  static char m_sDisplayText$<COM-018>[$<TXT-205>] = "$<TXT-201>";
+  static char m_sDisplayText$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateTxt(&m_gui,$<COM-002>,$<COM-000>,(gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_sDisplayText$<COM-018>,$<TXT-205>,$<TXT-211>);
 <STOP>
@@ -724,12 +746,12 @@ bool CbTickScanner(void* pvGui,void* pvScope)
   
   // create $<COM-002> button with text label
   pElemRef = gslc_ElemCreateBtnTxt(&m_gui,$<COM-002>,$<COM-000>,
-    (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},(char*)"$<TXT-202>",0,$<TXT-211>,&CbBtnCommon);
+    (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},(char*)$<TEXT>,0,$<TXT-211>,&CbBtnCommon);
 <STOP>
 <TXTBUTTON_UPDATE>
   
   // Create $<COM-002> button with modifiable text label
-  static char m_strbtn$<COM-018>[$<TXT-205>] = "$<TXT-202>";
+  static char m_strbtn$<COM-018>[$<TXT-205>] = $<TEXT>;
   pElemRef = gslc_ElemCreateBtnTxt(&m_gui,$<COM-002>,$<COM-000>,
     (gslc_tsRect){$<COM-003>,$<COM-004>,$<COM-005>,$<COM-006>},
     (char*)m_strbtn$<COM-018>,$<TXT-205>,$<TXT-211>,&CbBtnCommon);
